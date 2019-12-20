@@ -1,0 +1,13 @@
+<div class="card" *ngFor="let beer of beers">
+	<div class="card-body">
+		<div class="card-title">Bier: {{ beer.Bier }}</div>
+		<ul>
+			<li>Stijl: {{ beer.Stijl || unknownMessage }}</li>
+			<li>Stamwortgehalte: {{ beer.Stamwortgehalte || unknownMessage }}</li>
+			<li>Alcoholpercentage: {{ beer.Alcoholpercentage || unknownMessage }}</li>
+			<li>Gisting: {{ beer.Gisting || unknownMessage }}</li>
+			<li>Sinds: {{ beer.Sinds || unknownMessage }}</li>
+			<li>Brouwerij: {{ beer.Brouwerij || unknownMessage }}</li>
+		</ul>
+	</div>
+</div>
