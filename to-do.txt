@@ -1,5 +1,8 @@
 TO-DO
 - service to fetch beers json
+- add filters for beers
+- filter beers based on filtering
 
 DONE
 x include bootstrap
+x show all beers
