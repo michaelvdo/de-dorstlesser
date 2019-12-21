@@ -6,3 +6,4 @@ TO-DO
 DONE
 x include bootstrap
 x show all beers
+x CI/CD with Netlify
