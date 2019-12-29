@@ -1,4 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { BEERS } from '../../data/mock-beers';
+import { Beer } from '../../models/beer.model';
 
 @Component({
   selector: 'app-filters',
@@ -7,20 +9,53 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class FiltersComponent implements OnInit {
   @Output() filterUpdated = new EventEmitter<{
-    stijl: string
+    Stijl: string,
+    Brouwerij: string
   }>();
 
-  stijl: string;
+  Stijl: string;
+  Brouwerij: string;
+  beers: Beer[] = BEERS;
 
-  constructor() { }
+  // Filters
+  stijlOptions = [];
+  brouwerijOptions = [];
 
-  ngOnInit() {
+  constructor() {
+    this.generateFilters();
+  }
+
+  ngOnInit() {}
+
+  generateFilters() {
+    this.generateStijlOptions();
+    this.generateBrouwerijOptions();
+  }
+
+  generateStijlOptions() {
+    this.stijlOptions = this.beers.reduce((filterOptions, curr) => {
+      if (!filterOptions.includes(curr.Stijl) && curr.Stijl !== '') {
+        filterOptions.push(curr.Stijl);
+      }
+      return filterOptions;
+    }, []);
+  }
+
+  generateBrouwerijOptions() {
+    this.brouwerijOptions = this.beers.reduce((filterOptions, curr) => {
+      if (!filterOptions.includes(curr.Brouwerij) && curr.Brouwerij !== '') {
+        filterOptions.push(curr.Brouwerij);
+      }
+      return filterOptions;
+    }, []);
   }
 
   filterChanged(event) {
-    console.log(event);
+    console.log(event.target.name);
+    this[event.target.name] = event.target.value;
     this.filterUpdated.emit({
-      stijl: event.target.value
+      Stijl: this.Stijl,
+      Brouwerij: this.Brouwerij
     });
   }
 

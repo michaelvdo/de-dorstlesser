@@ -13,12 +13,14 @@ export class AppComponent {
   filteredBeers: Beer[] = [];
 
   constructor() {
-    this.filterBeers({stijl: ''});
+    this.filterBeers({Stijl: '', Brouwerij: ''});
   }
 
-  filterBeers(filters: {stijl: string}) {
+  filterBeers(filters: {Stijl: string, Brouwerij: string}) {
     this.filteredBeers = this.beers.filter((beer) => {
-      return filters.stijl ? beer.Stijl === filters.stijl : true;
+      const filtersArray = Object.keys(filters);
+      return filtersArray.every((filter) => filters[filter] ? (beer[filter] === filters[filter]) : true);
+      // return filters.Stijl ? beer.Stijl === filters.Stijl : true;
     });
   }
 }
