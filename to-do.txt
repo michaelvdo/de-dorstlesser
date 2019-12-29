@@ -2,6 +2,7 @@ TO-DO
 - service to fetch beers json
 - add filters for beers
 - filter beers based on filtering
+- fill filters based on data from beers json
 
 DONE
 x include bootstrap
