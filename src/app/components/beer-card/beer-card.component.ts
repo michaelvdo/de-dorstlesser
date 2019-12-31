@@ -9,7 +9,6 @@ import { Beer } from '../../models/beer.model';
 export class BeerCardComponent {
 
   @Input('beerObj') beer: Beer;
-  @Input('beerIndex') index: number;
   unknownMessage = 'Onbekend';
 
   constructor() {}
