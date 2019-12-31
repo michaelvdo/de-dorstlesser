@@ -1,8 +1,9 @@
 <section>
-  <div class="container">
+  <div class="container my-1">
     <div class="row">
-      <div class="col-6">
+      <div class="col-lg-6 d-flex flex-row align-items-center">
         <h1>{{ title }}!</h1>
+        <img src="assets/beer.png" alt="beer icon">
       </div>
     </div>
     <div class="row">
@@ -12,11 +13,15 @@
           [beers]="filteredBeers"></app-filters>
       </div>
     </div>
+    <hr>
     <div class="card-columns">
       <app-beer-card
         *ngFor="let beer of filteredBeers; index as index"
         [beerObj]="beer"
         [beerIndex]="index"></app-beer-card>
+      <p *ngIf="filteredBeers.length === 0">No beers to show for your selection!</p>
     </div>
+    <hr>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
   </div>
 </section>

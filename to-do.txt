@@ -1,10 +1,13 @@
 TO-DO
 - service to fetch beers json
-- add filters for beers
-- filter beers based on filtering
-- fill filters based on data from beers json
 
 DONE
 x include bootstrap
 x show all beers
 x CI/CD with Netlify
+x add filters for beers
+x filter beers based on filtering
+x fill filters based on data from beers json
+x Add beer icon
+x Credit icon creator (<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>)
+x Add basic styling
