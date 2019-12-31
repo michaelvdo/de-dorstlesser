@@ -83,6 +83,7 @@ export class FiltersComponent implements OnInit {
    */
   filterChanged(event) {
     this[event.target.name] = event.target.value;
+    // this.generateOptions(); // commented out since it's not working as expected...
     this.emitFilterEvent();
   }
 }
