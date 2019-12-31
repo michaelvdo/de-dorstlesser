@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BeersService } from './beers.service';
+import { SortArrayService } from './sort-array.service';
 
-describe('BeersService', () => {
+describe('SortArrayService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BeersService = TestBed.get(BeersService);
+    const service: SortArrayService = TestBed.get(SortArrayService);
     expect(service).toBeTruthy();
   });
 });

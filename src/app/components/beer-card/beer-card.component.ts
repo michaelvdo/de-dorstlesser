@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Beer } from '../../models/beer.model';
 
 @Component({
@@ -6,15 +6,11 @@ import { Beer } from '../../models/beer.model';
   templateUrl: './beer-card.component.html',
   styleUrls: ['./beer-card.component.css']
 })
-export class BeerCardComponent implements OnInit {
+export class BeerCardComponent {
 
   @Input('beerObj') beer: Beer;
   @Input('beerIndex') index: number;
   unknownMessage = 'Onbekend';
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  constructor() {}
 }

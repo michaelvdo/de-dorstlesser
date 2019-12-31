@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { BEERS } from '../../data/mock-beers';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Beer } from '../../models/beer.model';
+import { SortArrayService } from '../../services/sort-array.service';
 
 @Component({
   selector: 'app-filters',
@@ -8,55 +8,81 @@ import { Beer } from '../../models/beer.model';
   styleUrls: ['./filters.component.css']
 })
 export class FiltersComponent implements OnInit {
+  @Input() beers: Beer[];
   @Output() filterUpdated = new EventEmitter<{
-    Stijl: string,
-    Brouwerij: string
-  }>();
+    Stijl: object,
+    Brouwerij: object,
+    Alcoholpercentage: object
+  }>(true); // Added the "isAsync" flag as "true" to avoid an "Expression has changed after it was checked" error on values of the filters other than "" or "0". Ideally, the structure of the program should be rewritten to avoid this problem.
+  // See https://stackoverflow.com/questions/42190290/expression-has-changed-after-it-was-checked-when-child-component-emits-on-ngon and https://hackernoon.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
 
-  Stijl: string;
-  Brouwerij: string;
-  beers: Beer[] = BEERS;
+  // Initial values
+  initialStijl: string = '';
+  initialBrouwerij: string = '';
+  initialAlcoholpercentage: string = '0';
 
-  // Filters
-  stijlOptions = [];
-  brouwerijOptions = [];
+  // Filter values
+  Stijl: string = this.initialStijl;
+  Brouwerij: string = this.initialBrouwerij;
+  Alcoholpercentage: string = this.initialAlcoholpercentage;
 
-  constructor() {
-    this.generateFilters();
+  // Select element options
+  selectOptions: object = {
+    Stijl: [],
+    Brouwerij: []
   }
 
-  ngOnInit() {}
+  constructor(private sortArray: SortArrayService) {}
 
-  generateFilters() {
-    this.generateStijlOptions();
-    this.generateBrouwerijOptions();
+  ngOnInit() {
+    this.generateOptions();
+    this.emitFilterEvent();
   }
 
-  generateStijlOptions() {
-    this.stijlOptions = this.beers.reduce((filterOptions, curr) => {
-      if (!filterOptions.includes(curr.Stijl) && curr.Stijl !== '') {
-        filterOptions.push(curr.Stijl);
-      }
-      return filterOptions;
-    }, []);
+  /**
+   * Generate options for select elements
+   * @returns { undefined }
+   */
+  generateOptions() {
+    for (const prop in this.selectOptions) {
+      this.selectOptions[prop] = this.beers.reduce((filterOptions: Array<object>, curr) => {
+        if (!filterOptions.includes(curr[prop]) && curr[prop] !== '') {
+          filterOptions.push(curr[prop]);
+        }
+        return filterOptions;
+      }, []);
+      this.sortArray.sortStrings(this.selectOptions[prop]);
+    }
   }
 
-  generateBrouwerijOptions() {
-    this.brouwerijOptions = this.beers.reduce((filterOptions, curr) => {
-      if (!filterOptions.includes(curr.Brouwerij) && curr.Brouwerij !== '') {
-        filterOptions.push(curr.Brouwerij);
-      }
-      return filterOptions;
-    }, []);
-  }
-
-  filterChanged(event) {
-    console.log(event.target.name);
-    this[event.target.name] = event.target.value;
+  /**
+   * Emit filter event. Used by parent to update beer list
+   * @returns { undefined }
+   */
+  emitFilterEvent() {
     this.filterUpdated.emit({
-      Stijl: this.Stijl,
-      Brouwerij: this.Brouwerij
+      Stijl: {
+        filterOn: 'stringValue',
+        value: this.Stijl
+      },
+      Brouwerij: {
+        filterOn: 'stringValue',
+        value: this.Brouwerij
+      },
+      Alcoholpercentage: {
+        filterOn: 'minimumNumber',
+        value: this.Alcoholpercentage
+      }
     });
   }
 
+  /**
+   * Update internal filter value and emit event
+   * @param event { object } - Event raised by changed filter element
+   * @returns { undefined }
+   */
+  filterChanged(event) {
+    this[event.target.name] = event.target.value;
+    this.emitFilterEvent();
+  }
 }

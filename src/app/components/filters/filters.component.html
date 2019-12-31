@@ -5,8 +5,8 @@
 			<select name="Stijl" id="Stijl" class="form-control" (change)="filterChanged($event)">
 				<option value="">Choose an option</option>
 				<option
-					*ngFor="let stijlOption of stijlOptions"
-					[value]="stijlOption">{{ stijlOption }}</option
+					*ngFor="let option of selectOptions.Stijl"
+					[value]="option">{{ option }}</option
 					>
 			</select>
 		</div>
@@ -17,10 +17,16 @@
 			<select name="Brouwerij" id="Brouwerij" class="form-control" (change)="filterChanged($event)">
 				<option value="">Choose an option</option>
 				<option
-					*ngFor="let brouwerijOption of brouwerijOptions"
-					[value]="brouwerijOption">{{ brouwerijOption }}</option
+					*ngFor="let option of selectOptions.Brouwerij"
+					[value]="option">{{ option }}</option
 					>
 			</select>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<div class="form-group">
+			<label for="Alcoholpercentage">Minimum alcoholpercentage ({{ Alcoholpercentage }}%)</label>
+			<input type="range" name="Alcoholpercentage" min="0" max="20" value="{{ initialAlcoholpercentage }}" id="Alcoholpercentage" class="form-control" (change)="filterChanged($event)">
 		</div>
 	</div>
 </div>
