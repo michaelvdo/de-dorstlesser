@@ -19,7 +19,7 @@
         *ngFor="let beer of filteredBeers; index as index"
         [beerObj]="beer"
         [beerIndex]="index"></app-beer-card>
-      <p *ngIf="filteredBeers.length === 0">No beers to show for your selection!</p>
+      <p *ngIf="filteredBeers.length === 0">Er zijn geen biertjes die aan jouw selectie voldoen!</p>
     </div>
     <hr>
     <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
