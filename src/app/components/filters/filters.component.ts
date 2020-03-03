@@ -27,7 +27,7 @@ export class FiltersComponent implements OnInit {
   Alcoholpercentage: string = this.initialAlcoholpercentage;
 
   // Select element options
-  selectOptions: object = {
+  selectOptions = {
     Stijl: [],
     Brouwerij: []
   }
