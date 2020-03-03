@@ -25,8 +25,8 @@
 	</div>
 	<div class="col-lg-4">
 		<div class="form-group">
-			<label for="Alcoholpercentage">Minimum alcoholpercentage ({{ Alcoholpercentage }}%)</label>
-			<input type="range" name="Alcoholpercentage" min="0" max="20" value="{{ initialAlcoholpercentage }}" id="Alcoholpercentage" class="form-control" (change)="filterChanged($event)">
+			<label for="Alcoholpercentage">Minimum alcoholpercentage ({{ filters.Alcoholpercentage.value }}%)</label>
+			<input type="range" name="Alcoholpercentage" min="0" max="20" value="{{ filters.Alcoholpercentage.value }}" id="Alcoholpercentage" class="form-control" (change)="filterChanged($event)">
 		</div>
 	</div>
 </div>

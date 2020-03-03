@@ -1,6 +1,10 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { Beer } from '../../models/beer.model';
+import { Component, OnInit } from '@angular/core';
+
 import { SortArrayService } from '../../services/sort-array.service';
+import { BeersService } from 'src/app/services/beers.service';
+
+import { Beer } from '../../models/beer.model';
+import { Filters } from 'src/app/models/filters.model';
 
 @Component({
   selector: 'app-filters',
@@ -8,23 +12,22 @@ import { SortArrayService } from '../../services/sort-array.service';
   styleUrls: ['./filters.component.css']
 })
 export class FiltersComponent implements OnInit {
-  @Input() beers: Beer[];
-  @Output() filterUpdated = new EventEmitter<{
-    Stijl: object,
-    Brouwerij: object,
-    Alcoholpercentage: object
-  }>(true); // Added the "isAsync" flag as "true" to avoid an "Expression has changed after it was checked" error on values of the filters other than "" or "0". Ideally, the structure of the program should be rewritten to avoid this problem.
-  // See https://stackoverflow.com/questions/42190290/expression-has-changed-after-it-was-checked-when-child-component-emits-on-ngon and https://hackernoon.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
+  filters: Filters = {
+    Stijl: {
+      filterOn: 'stringValue',
+      value: ''
+    },
+    Brouwerij: {
+      filterOn: 'stringValue',
+      value: ''
+    },
+    Alcoholpercentage: {
+      filterOn: 'minimumNumber',
+      value: '0'
+    }
+  };
 
-  // Initial values
-  initialStijl: string = '';
-  initialBrouwerij: string = '';
-  initialAlcoholpercentage: string = '0';
-
-  // Filter values
-  Stijl: string = this.initialStijl;
-  Brouwerij: string = this.initialBrouwerij;
-  Alcoholpercentage: string = this.initialAlcoholpercentage;
+  beers: Beer[] = this.beersService.getFilteredBeers(this.filters);
 
   // Select element options
   selectOptions = {
@@ -32,11 +35,10 @@ export class FiltersComponent implements OnInit {
     Brouwerij: []
   }
 
-  constructor(private sortArray: SortArrayService) {}
+  constructor(private sortArray: SortArrayService, private beersService: BeersService) {}
 
   ngOnInit() {
     this.generateOptions();
-    this.emitFilterEvent();
   }
 
   /**
@@ -55,35 +57,8 @@ export class FiltersComponent implements OnInit {
     }
   }
 
-  /**
-   * Emit filter event. Used by parent to update beer list
-   * @returns { undefined }
-   */
-  emitFilterEvent() {
-    this.filterUpdated.emit({
-      Stijl: {
-        filterOn: 'stringValue',
-        value: this.Stijl
-      },
-      Brouwerij: {
-        filterOn: 'stringValue',
-        value: this.Brouwerij
-      },
-      Alcoholpercentage: {
-        filterOn: 'minimumNumber',
-        value: this.Alcoholpercentage
-      }
-    });
-  }
-
-  /**
-   * Update internal filter value and emit event
-   * @param event { object } - Event raised by changed filter element
-   * @returns { undefined }
-   */
-  filterChanged(event) {
-    this[event.target.name] = event.target.value;
-    // this.generateOptions(); // commented out since it's not working as expected...
-    this.emitFilterEvent();
+  filterChanged(event: any) {
+    this.filters[event.target.name].value = event.target.value;
+    this.beers = this.beersService.getFilteredBeers(this.filters);
   }
 }
